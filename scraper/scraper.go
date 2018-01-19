@@ -8,15 +8,27 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+//Offer houses all the useful data that an offer can provide
 type Offer struct {
+	id          int
 	title       string
 	description string
 	houseSize   int
 	roomSize    int
 	address     string
+	price       int
+}
+
+//Request houses all the useful data that a request can provide
+type Request struct {
+	id          int
+	name        string
+	description string
 }
 
 func main() {
+	// thissssOffer, err := ScrapRequest("http://www.wg-gesucht.de/6507144.html")
+
 	doc, err := goquery.NewDocument("http://www.wg-gesucht.de/6507144.html")
 	if err != nil {
 		log.Fatal(err)
@@ -55,4 +67,17 @@ func main() {
 	doc.Find("#main_content").Find("#main_column").Find(".panel-body").Find(".col-sm-4").Find("[onclick]").Each(func(index int, item *goquery.Selection) {
 		fmt.Printf("address = %s\n", strings.TrimSpace(item.Text()))
 	})
+}
+
+//ScrapRequest turns an offer url to an Offer struct
+//TODO url formatter: check if the url is from wg first
+func ScrapRequest(url string) (offer Offer, err error) {
+	var thisOffer Offer
+	doc, err := goquery.NewDocument(url)
+	if err != nil {
+		return thisOffer, err
+	}
+	fmt.Println(doc)
+	//TODO in progress
+	return thisOffer, nil
 }
