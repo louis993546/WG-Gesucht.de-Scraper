@@ -25,7 +25,10 @@
 
 ## What's next
 
+- Follow licenses of dependencies
+	- goquery
 - Make a crawer-ish thing that uses this to turn HTML into GraphQL API
 	- User needs to specify entry point
 	- Crawer should crawl through the whole list, page after page
 	- User should be able to filter the list
+- Check if they have a REST API (i.e. how does the app work)
