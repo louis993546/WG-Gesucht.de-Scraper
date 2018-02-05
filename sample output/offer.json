@@ -1,0 +1,45 @@
+{
+    "type": "offer",
+    "data": {
+        "id": 12345,
+        "title": "title of this ad",
+        "description": "description of this ad, may contain html tags",
+        "total_size": 123,
+        "room_size": 123,
+        "address": {
+            "address_string": "Warschauerstrasse 59, 10243 Berlin, Deutschland",
+            "is_approximate": true,
+            "latitude": 3.1415926535,
+            "longitude": 2.178281828
+        },
+        "rent": {
+            "rent": 123,
+            "utility": 123,
+            "deposit": 123,
+            "equipment": 0,
+            "other": 0
+        },
+        "available_from": "",
+        "available_to": "",
+        "capacity": 123,
+        "occupants": {
+            "count_male": 123,
+            "count_female": 123,
+            "age_max": 123,
+            "age_min": 123,
+            "languages": [
+                "",
+                ""
+            ]
+        },
+        "target": {
+            "age_min": 123,
+            "age_max": 123,
+            "gender": ""
+        },
+        "images": [
+            "",
+            ""
+        ]
+    }
+}
