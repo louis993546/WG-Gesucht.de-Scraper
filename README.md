@@ -3,16 +3,29 @@
 ## Goal
 
 - Make a WG-Gesucht scraper library with Golang
-- Practice my Golang
+- Practice my Golang skills
 
 ## What can/will it do?
 
 - Tells you if an URL is an offer, a request, list of offers, or list of requests
 	- Input: URL
 	- Output: what type of link it is
+		- Offer
+		- Request
+		- Offers list
+		- Request list
 - Scrap a specific WG-Gesucht.de offer
 	- Input: URL of an offer
-	- Output: An "Offer" struct that contains all the relevant data
+	- Output: An "Offer" struct that contains all the relevant data, including but not limited to:
+		- Which type of offer
+			- Flatshare
+			- 1 room flat
+			- Flats
+			- Houses
+		- rent
+		- what's available in the room/apartment
+		- info about the people
+	- Error: when the offer is not accessable, or if too many thing broke (i.e. they may have change the site)
 - Scrap a specific WG_Gesucht.de request
 	- Input: URL of an offer
 	- Output: An "Request" struct that contains all the relevant data

@@ -1,9 +1,10 @@
-package main
+package wggesuchtscrapper
 
 import (
 	"fmt"
 	"log"
 	"net/url"
+	"strconv"
 	"time"
 
 	"github.com/PuerkitoBio/goquery"
@@ -66,9 +67,8 @@ type OfferAddress struct {
 	Longitude     float32
 }
 
-//TODO figure out how to turn boolean to string
 func (oa OfferAddress) String() string {
-	return "{'address_string': " + oa.AddressString + ", 'is_approximate': " + string(oa.IsApproximate) + "}"
+	return "{'address_string': " + oa.AddressString + ", 'is_approximate': " + string(strconv.FormatBool(oa.IsApproximate)) + "}"
 }
 
 //NetworkSpeed has min and max. This exist because how WG-Gesucht works sucks
@@ -314,7 +314,9 @@ func ScrapRequest(url string) (offer Offer, err error) {
 		return thisOffer, err
 	}
 
-	//technically all of the following can be done with goroutine
+	//technically all of the following can be done with goroutine -> need to figure out how to
+	//1. kill all other routines when fatal in one of them
+	//2. terminate once all the goroutines finished
 
 	err = thisOffer.injectID(doc)
 	if err != nil {
@@ -373,6 +375,7 @@ func ScrapRequest(url string) (offer Offer, err error) {
 
 	err = thisOffer.injectImages(doc)
 	if err != nil {
+		//TODO this should not return (because images should be nullable)
 		return thisOffer, err
 	}
 

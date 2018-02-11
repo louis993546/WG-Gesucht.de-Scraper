@@ -1,0 +1,7 @@
+{
+    "type": "error",
+    "data": {
+        "type": 123,
+        "message": "This url does not look like it's from WG-gesucht."
+    }
+}
