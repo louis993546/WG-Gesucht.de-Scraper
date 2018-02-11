@@ -1,4 +1,4 @@
-package wggesuchtscrapper
+package scraper
 
 import (
 	"testing"
