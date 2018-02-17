@@ -5,7 +5,7 @@ import (
 )
 
 //RegexpWgGesuchtBase is the compiled regex for wg gesucht base
-var RegexpWgGesuchtBase = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/`)
+var RegexpWgGesuchtBase = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de`)
 
 //RegexpWgGesuchtList is the compiled regex for wg gesucht list
 var RegexpWgGesuchtList = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
@@ -14,10 +14,10 @@ var RegexpWgGesuchtList = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.d
 var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
 //RegexpWgGesuchtEnglish is the compiled regex for wg gesucht english site
-var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/en/`)
+var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/en`)
 
 //RegexpWgGesuchtSpanish is the compiled regex for wg gesucht spanish site
-var RegexpWgGesuchtSpanish = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/es/`)
+var RegexpWgGesuchtSpanish = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/es`)
 
 //LooksWgGesucht checks if at the very least the url looks like it is from wg-gesucht.de
 //i.e. does the url starts with "www.wg-gesucht.de" (+- http(s)://)
@@ -56,5 +56,5 @@ func IsSpanish(url string) bool {
 func IsGerman(url string) bool {
 	//TODO this is not the safest thing in the world: if they add new language it will screw me up
 	//If soneome comes up with a regexp string that does not create false positive nor negative, let me know
-	return (!IsEnglish(url) && !IsSpanish(url)) //by not being english nor spanish
+	return (LooksWgGesucht(url) && !IsEnglish(url) && !IsSpanish(url)) //by not being english nor spanish
 }
