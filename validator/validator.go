@@ -5,19 +5,19 @@ import (
 )
 
 //RegexpWgGesuchtBase is the compiled regex for wg gesucht base
-var RegexpWgGesuchtBase = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de`)
+var RegexpWgGesuchtBase = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)`)
 
 //RegexpWgGesuchtList is the compiled regex for wg gesucht list
-var RegexpWgGesuchtList = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
+var RegexpWgGesuchtList = regexp.MustCompile(`^(|((http|https)://))www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
 //RegexpWgGesuchtRequestList is the compiled regex for wg gesucht request list
-var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
+var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
 //RegexpWgGesuchtEnglish is the compiled regex for wg gesucht english site
-var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/en`)
+var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/en`)
 
 //RegexpWgGesuchtSpanish is the compiled regex for wg gesucht spanish site
-var RegexpWgGesuchtSpanish = regexp.MustCompile(`^(http|https)://www\.wg-gesucht\.de/es`)
+var RegexpWgGesuchtSpanish = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/es`)
 
 //LooksWgGesucht checks if at the very least the url looks like it is from wg-gesucht.de
 //i.e. does the url starts with "www.wg-gesucht.de" (+- http(s)://)
