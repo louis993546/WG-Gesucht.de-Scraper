@@ -31,9 +31,10 @@ func IsList(url string) bool {
 }
 
 //IsOfferList checks if the url is a list of offers on wg-gesucht.de
-//TODO This one is not possible with regexp package. Need to DIY a bit
 func IsOfferList(url string) bool {
-	return false
+	//TODO this is not the safest thing ever: if they added a third type of list it will screw me up
+	//The reason why I am not using another regexp is because ?! is not supported in regexp package (just google)
+	return RegexpWgGesuchtList.MatchString(url) && !RegexpWgGesuchtRequestList.MatchString(url)
 }
 
 //IsRequestList checks if the url is a list of requests on wg-gesucht.de
@@ -53,5 +54,7 @@ func IsSpanish(url string) bool {
 
 //IsGerman checks if the url is a german version of some page on wg-gesucht.de
 func IsGerman(url string) bool {
+	//TODO this is not the safest thing in the world: if they add new language it will screw me up
+	//If soneome comes up with a regexp string that does not create false positive nor negative, let me know
 	return (!IsEnglish(url) && !IsSpanish(url)) //by not being english nor spanish
 }
