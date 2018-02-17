@@ -11,7 +11,7 @@ var RegexpWgGesuchtBase = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht
 var RegexpWgGesuchtList = regexp.MustCompile(`^(|((http|https)://))www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
 //RegexpWgGesuchtAdOrList is the compiled regex for wg gesucht ad or list (request or offer)
-var RegexpWgGesuchtAdOrList = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(.*)(\.)([0-9]{1,7})(\.html)`)
+var RegexpWgGesuchtAdOrList = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(.*)(\.)([0-9]{2,7})(\.html)`)
 
 //RegexpWgGesuchtRequestList is the compiled regex for wg gesucht request list
 var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)

@@ -45,3 +45,6 @@
 	- Crawer should crawl through the whole list, page after page
 	- User should be able to filter the list
 - Check if they have a REST API (i.e. how does the app work)
+	- Wireshark
+- Check what is the min id of ads
+	- right now I have a pretty ugly workaround in IsAd(). It would be useful if I can just ignore any id with less than 2/3/4/5/6 digits

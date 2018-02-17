@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"fmt"
+	"encoding/json"
 	"testing"
 )
 
@@ -24,8 +24,8 @@ type TestURL struct {
 }
 
 func (tu TestURL) String() string {
-	// return "{'min': " + string(ns.Min) + ", 'max': " + string(ns.Max) + "}"
-	return fmt.Sprintf("%s, %t, %t, %t, %t, %t, %t, %t", tu.URL, tu.LooksWgGesucht, tu.IsList, tu.IsRequestList, tu.IsOfferList, tu.IsEnglish, tu.IsSpanish, tu.IsGerman)
+	output, _ := json.Marshal(tu)
+	return string(output)
 }
 
 //TODO need more test data to cover as many scenario as possible
