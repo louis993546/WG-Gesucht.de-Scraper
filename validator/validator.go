@@ -37,10 +37,14 @@ func IsOfferList(url string) bool {
 	return RegexpWgGesuchtList.MatchString(url) && !RegexpWgGesuchtRequestList.MatchString(url)
 }
 
+//TODO IsOffer
+
 //IsRequestList checks if the url is a list of requests on wg-gesucht.de
 func IsRequestList(url string) bool {
 	return RegexpWgGesuchtRequestList.MatchString(url)
 }
+
+//TODO IsRequest
 
 //IsEnglish checks if the url is an english version of some page on wg-gesucht.de
 func IsEnglish(url string) bool {

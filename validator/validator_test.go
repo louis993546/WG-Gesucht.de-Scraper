@@ -92,3 +92,52 @@ func TestIsGerman(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkLooksWgGesucht(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := LooksWgGesucht(testData[0].URL)
+		b.Log(answer)
+	}
+}
+
+func BenchmarkIsList(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := IsList(testData[0].URL)
+		b.Log(answer)
+	}
+}
+
+func BenchmarkIsRequestList(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := IsRequestList(testData[0].URL)
+		b.Log(answer)
+	}
+}
+
+func BenchmarkIsOfferList(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := IsOfferList(testData[0].URL)
+		b.Log(answer)
+	}
+}
+
+func BenchmarkIsEnglish(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := IsEnglish(testData[0].URL)
+		b.Log(answer)
+	}
+}
+
+func BenchmarkIsSpanish(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := IsSpanish(testData[0].URL)
+		b.Log(answer)
+	}
+}
+
+func BenchmarkIsGerman(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		answer := IsGerman(testData[0].URL)
+		b.Log(answer)
+	}
+}
