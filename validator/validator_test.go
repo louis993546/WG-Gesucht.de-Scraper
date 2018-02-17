@@ -6,14 +6,20 @@ import (
 )
 
 type TestURL struct {
-	URL            string
-	LooksWgGesucht bool
-	IsList         bool
-	IsRequestList  bool
-	IsOfferList    bool
-	IsEnglish      bool
-	IsSpanish      bool
-	IsGerman       bool
+	URL             string
+	LooksWgGesucht  bool
+	IsList          bool
+	IsOfferList     bool
+	IsOffer         bool
+	IsRequestList   bool
+	IsRequest       bool
+	AboutFlatshares bool
+	About1RoomFlats bool
+	AboutFlats      bool
+	AboutHouses     bool
+	IsEnglish       bool
+	IsSpanish       bool
+	IsGerman        bool
 }
 
 func (tu TestURL) String() string {
@@ -24,32 +30,25 @@ func (tu TestURL) String() string {
 //TODO need more test data to cover as many scenario as possible
 //If you want to test more urls, just add another row to here, and specified what condition does it match
 var testData = []TestURL{
-	TestURL{"https://www.wg-gesucht.de", true, false, false, false, false, false, true},
-	TestURL{"https://www.wg-gesucht.de/en", true, false, false, false, true, false, false},
-	TestURL{"https://www.wg-gesucht.de/en/", true, false, false, false, true, false, false},
-	TestURL{"https://www.wg-gesucht.de/es", true, false, false, false, false, true, false},
-	TestURL{"https://www.wg-gesucht.de/es/", true, false, false, false, false, true, false},
-	TestURL{"http://www.wg-gesucht.de", true, false, false, false, false, false, true},
-	TestURL{"http://www.wg-gesucht.de/en", true, false, false, false, true, false, false},
-	TestURL{"http://www.wg-gesucht.de/es", true, false, false, false, false, true, false},
-	TestURL{"https://www.wg-gesucht.de/somer", true, false, false, false, false, false, true},
-	TestURL{"https://www.wg-gesucht.en", false, false, false, false, false, false, false},
-	TestURL{"https://www.wg-gesucht.es", false, false, false, false, false, false, false},
-	TestURL{"", false, false, false, false, false, false, false},
-	TestURL{"https://", false, false, false, false, false, false, false},
-	TestURL{"www.wh-gesucht.de", false, false, false, false, false, false, false},
-	TestURL{"asc;oihwoelkihfoy8239gufobdijpw20huodb1l;kn3w2p", false, false, false, false, false, false, false},
-	TestURL{"www.wg-gesucht.de", true, false, false, false, false, false, true},
-	TestURL{"www.wg-gesucht.de/en", true, false, false, false, true, false, false},
-	TestURL{"www.wg-gesucht.de/en/", true, false, false, false, true, false, false},
-	TestURL{"www.wg-gesucht.de/es", true, false, false, false, false, true, false},
-	TestURL{"www.wg-gesucht.de/es/", true, false, false, false, false, true, false},
-	TestURL{"www.wg-gesucht.de", true, false, false, false, false, false, true},
-	TestURL{"www.wg-gesucht.de/en", true, false, false, false, true, false, false},
-	TestURL{"www.wg-gesucht.de/es", true, false, false, false, false, true, false},
-	TestURL{"www.wg-gesucht.de/somer", true, false, false, false, false, false, true},
-	TestURL{"www.wg-gesucht.en", false, false, false, false, false, false, false},
-	TestURL{"www.wg-gesucht.es", false, false, false, false, false, false, false},
+	TestURL{"https://www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"https://www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"https://www.wg-gesucht.de/en/", true, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"https://www.wg-gesucht.de/es", true, false, false, false, false, false, false, false, false, false, false, true, false},
+	TestURL{"https://www.wg-gesucht.de/es/", true, false, false, false, false, false, false, false, false, false, false, true, false},
+	TestURL{"http://www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"http://www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"http://www.wg-gesucht.de/es", true, false, false, false, false, false, false, false, false, false, false, true, false},
+	TestURL{"https://www.wg-gesucht.de/somer", true, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"https://www.wg-gesucht.en", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"https://www.wg-gesucht.es", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"https://", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"www.wh-gesucht.de", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"asc;oihwoelkihfoy8239gufobdijpw20huodb1l;kn3w2p", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"ftp://www.wg-gesucht.de/en/", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"htttttp://www.wg-gesucht.de/es", false, false, false, false, false, false, false, false, false, false, false, false, false},
 }
 
 func TestLooksWgGesucht(t *testing.T) {
@@ -68,6 +67,22 @@ func TestIsList(t *testing.T) {
 	}
 }
 
+func TestIsOfferList(t *testing.T) {
+	for _, url := range testData {
+		if IsOfferList(url.URL) != url.IsOfferList {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
+func TestIsOffer(t *testing.T) {
+	for _, url := range testData {
+		if IsOffer(url.URL) != url.IsOffer {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
 func TestIsRequestList(t *testing.T) {
 	for _, url := range testData {
 		if IsRequestList(url.URL) != url.IsRequestList {
@@ -76,9 +91,41 @@ func TestIsRequestList(t *testing.T) {
 	}
 }
 
-func TestIsOfferList(t *testing.T) {
+func TestIsRequest(t *testing.T) {
 	for _, url := range testData {
-		if IsOfferList(url.URL) != url.IsOfferList {
+		if IsRequest(url.URL) != url.IsRequest {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
+func TestAboutFlatshares(t *testing.T) {
+	for _, url := range testData {
+		if AboutFlatshares(url.URL) != url.AboutFlatshares {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
+func TestAbout1RoomFlats(t *testing.T) {
+	for _, url := range testData {
+		if About1RoomFlats(url.URL) != url.About1RoomFlats {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
+func TestAboutFlats(t *testing.T) {
+	for _, url := range testData {
+		if AboutFlats(url.URL) != url.AboutFlats {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
+func TestAboutHouses(t *testing.T) {
+	for _, url := range testData {
+		if AboutHouses(url.URL) != url.AboutHouses {
 			t.Errorf("It failed at this url: %s", url)
 		}
 	}
