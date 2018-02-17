@@ -166,49 +166,48 @@ func TestIsGerman(t *testing.T) {
 
 func BenchmarkLooksWgGesucht(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := LooksWgGesucht(testData[0].URL)
-		b.Log(answer)
+		b.Log(LooksWgGesucht(testData[0].URL))
 	}
 }
 
 func BenchmarkIsList(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := IsList(testData[0].URL)
-		b.Log(answer)
+		b.Log(IsList(testData[0].URL))
+	}
+}
+
+func BenchmarkIsAd(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		b.Log(IsAd(testData[0].URL))
 	}
 }
 
 func BenchmarkIsRequestList(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := IsRequestList(testData[0].URL)
-		b.Log(answer)
+		b.Log(IsRequestList(testData[0].URL))
 	}
 }
 
 func BenchmarkIsOfferList(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := IsOfferList(testData[0].URL)
-		b.Log(answer)
+		b.Log(IsOfferList(testData[0].URL))
 	}
 }
 
 func BenchmarkIsEnglish(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := IsEnglish(testData[0].URL)
-		b.Log(answer)
+		b.Log(IsEnglish(testData[0].URL))
 	}
 }
 
 func BenchmarkIsSpanish(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := IsSpanish(testData[0].URL)
-		b.Log(answer)
+		b.Log(IsSpanish(testData[0].URL))
 	}
 }
 
 func BenchmarkIsGerman(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		answer := IsGerman(testData[0].URL)
-		b.Log(answer)
+		b.Log(IsGerman(testData[0].URL))
 	}
 }
