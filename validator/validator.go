@@ -13,6 +13,16 @@ var RegexpWgGesuchtList = regexp.MustCompile(`^(|((http|https)://))www\.wg-gesuc
 //RegexpWgGesuchtRequestList is the compiled regex for wg gesucht request list
 var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
+var RegexpWgGesuchtIsRequest = regexp.MustCompile(`(?m)^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(.*)(-gesucht)(\.)([0-9]{1,7})(\.html)`)
+
+var RegexpWgGesuchtAboutFlatshares = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/wg-zimmer-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+
+var RegexpWgGesuchtAbout1RoomFlats = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/1-zimmer-wohnungen-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+
+var RegexpWgGesuchtAboutFlats = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/wohnungen-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+
+var RegexpWgGesuchtAboutHouses = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/haeuser-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+
 //RegexpWgGesuchtEnglish is the compiled regex for wg gesucht english site
 var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/en`)
 
@@ -37,14 +47,41 @@ func IsOfferList(url string) bool {
 	return RegexpWgGesuchtList.MatchString(url) && !RegexpWgGesuchtRequestList.MatchString(url)
 }
 
-//TODO IsOffer
+//IsOffer checks if the url is a single offer on wg-gesucht.de
+func IsOffer(url string) bool {
+	//TODO figure out how to do this
+	return true
+}
 
 //IsRequestList checks if the url is a list of requests on wg-gesucht.de
 func IsRequestList(url string) bool {
 	return RegexpWgGesuchtRequestList.MatchString(url)
 }
 
-//TODO IsRequest
+//IsRequest checks if the url is a single request on wg-gesucht.de
+func IsRequest(url string) bool {
+	return RegexpWgGesuchtIsRequest.MatchString(url)
+}
+
+//AboutFlatshares checks if the url is about flatshares on wg-gesucht.de (list or ad, request or offer)
+func AboutFlatshares(url string) bool {
+	return RegexpWgGesuchtAboutFlatshares.MatchString(url)
+}
+
+//About1RoomFlats checks if the url is about 1 room flats on wg-gesucht.de (list or ad, request or offer)
+func About1RoomFlats(url string) bool {
+	return RegexpWgGesuchtAbout1RoomFlats.MatchString(url)
+}
+
+//AboutFlats checks if the url is about flats on wg-gesucht.de (list or ad, request or offer)
+func AboutFlats(url string) bool {
+	return RegexpWgGesuchtAboutFlats.MatchString(url)
+}
+
+//AboutHouses checks if the url is about houses on wg-gesucht.de (list or ad, request or offer)
+func AboutHouses(url string) bool {
+	return RegexpWgGesuchtAboutHouses.MatchString(url)
+}
 
 //IsEnglish checks if the url is an english version of some page on wg-gesucht.de
 func IsEnglish(url string) bool {

@@ -36,6 +36,8 @@ var testData = []TestURL{
 	TestURL{"https://www.wg-gesucht.en", false, false, false, false, false, false, false},
 	TestURL{"https://www.wg-gesucht.es", false, false, false, false, false, false, false},
 	TestURL{"", false, false, false, false, false, false, false},
+	TestURL{"https://", false, false, false, false, false, false, false},
+	TestURL{"www.wh-gesucht.de", false, false, false, false, false, false, false},
 	TestURL{"asc;oihwoelkihfoy8239gufobdijpw20huodb1l;kn3w2p", false, false, false, false, false, false, false},
 	TestURL{"www.wg-gesucht.de", true, false, false, false, false, false, true},
 	TestURL{"www.wg-gesucht.de/en", true, false, false, false, true, false, false},
