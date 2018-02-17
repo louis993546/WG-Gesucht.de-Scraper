@@ -10,6 +10,9 @@ var RegexpWgGesuchtBase = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht
 //RegexpWgGesuchtList is the compiled regex for wg gesucht list
 var RegexpWgGesuchtList = regexp.MustCompile(`^(|((http|https)://))www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
+//RegexpWgGesuchtAdOrList is the compiled regex for wg gesucht ad or list (request or offer)
+var RegexpWgGesuchtAdOrList = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(.*)(\.)([0-9]{1,7})(\.html)`)
+
 //RegexpWgGesuchtRequestList is the compiled regex for wg gesucht request list
 var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
@@ -43,6 +46,11 @@ func LooksWgGesucht(url string) bool {
 //IsList checks if the url is a list of offers or requests from wg-gesucht.de
 func IsList(url string) bool {
 	return RegexpWgGesuchtList.MatchString(url)
+}
+
+//IsAd checks if the url is an ad of offer or request from wg-gesucht.de
+func IsAd(url string) bool {
+	return RegexpWgGesuchtAdOrList.MatchString(url) && !RegexpWgGesuchtList.MatchString(url)
 }
 
 //IsOfferList checks if the url is a list of offers on wg-gesucht.de

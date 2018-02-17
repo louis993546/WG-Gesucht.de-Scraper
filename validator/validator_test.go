@@ -9,6 +9,7 @@ type TestURL struct {
 	URL             string
 	LooksWgGesucht  bool
 	IsList          bool
+	IsAd            bool
 	IsOfferList     bool
 	IsOffer         bool
 	IsRequestList   bool
@@ -30,25 +31,25 @@ func (tu TestURL) String() string {
 //TODO need more test data to cover as many scenario as possible
 //If you want to test more urls, just add another row to here, and specified what condition does it match
 var testData = []TestURL{
-	TestURL{"https://www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, true},
-	TestURL{"https://www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, true, false, false},
-	TestURL{"https://www.wg-gesucht.de/en/", true, false, false, false, false, false, false, false, false, false, true, false, false},
-	TestURL{"https://www.wg-gesucht.de/es", true, false, false, false, false, false, false, false, false, false, false, true, false},
-	TestURL{"https://www.wg-gesucht.de/es/", true, false, false, false, false, false, false, false, false, false, false, true, false},
-	TestURL{"http://www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, true},
-	TestURL{"http://www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, true, false, false},
-	TestURL{"http://www.wg-gesucht.de/es", true, false, false, false, false, false, false, false, false, false, false, true, false},
-	TestURL{"https://www.wg-gesucht.de/somer", true, false, false, false, false, false, false, false, false, false, false, false, true},
-	TestURL{"https://www.wg-gesucht.en", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"https://www.wg-gesucht.es", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"https://", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"www.wh-gesucht.de", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"asc;oihwoelkihfoy8239gufobdijpw20huodb1l;kn3w2p", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, true},
-	TestURL{"www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, true, false, false},
-	TestURL{"ftp://www.wg-gesucht.de/en/", false, false, false, false, false, false, false, false, false, false, false, false, false},
-	TestURL{"htttttp://www.wg-gesucht.de/es", false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"https://www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"https://www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"https://www.wg-gesucht.de/en/", true, false, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"https://www.wg-gesucht.de/es", true, false, false, false, false, false, false, false, false, false, false, false, true, false},
+	TestURL{"https://www.wg-gesucht.de/es/", true, false, false, false, false, false, false, false, false, false, false, false, true, false},
+	TestURL{"http://www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"http://www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"http://www.wg-gesucht.de/es", true, false, false, false, false, false, false, false, false, false, false, false, true, false},
+	TestURL{"https://www.wg-gesucht.de/somer", true, false, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"https://www.wg-gesucht.en", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"https://www.wg-gesucht.es", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"https://", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"www.wh-gesucht.de", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"asc;oihwoelkihfoy8239gufobdijpw20huodb1l;kn3w2p", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"www.wg-gesucht.de", true, false, false, false, false, false, false, false, false, false, false, false, false, true},
+	TestURL{"www.wg-gesucht.de/en", true, false, false, false, false, false, false, false, false, false, false, true, false, false},
+	TestURL{"ftp://www.wg-gesucht.de/en/", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
+	TestURL{"htttttp://www.wg-gesucht.de/es", false, false, false, false, false, false, false, false, false, false, false, false, false, false},
 }
 
 func TestLooksWgGesucht(t *testing.T) {
@@ -62,6 +63,14 @@ func TestLooksWgGesucht(t *testing.T) {
 func TestIsList(t *testing.T) {
 	for _, url := range testData {
 		if IsList(url.URL) != url.IsList {
+			t.Errorf("It failed at this url: %s", url)
+		}
+	}
+}
+
+func TestIsAd(t *testing.T) {
+	for _, url := range testData {
+		if IsAd(url.URL) != url.IsAd {
 			t.Errorf("It failed at this url: %s", url)
 		}
 	}
