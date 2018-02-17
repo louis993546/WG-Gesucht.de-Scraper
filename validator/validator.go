@@ -62,8 +62,7 @@ func IsOfferList(url string) bool {
 
 //IsOffer checks if the url is a single offer on wg-gesucht.de
 func IsOffer(url string) bool {
-	//TODO figure out how to do this
-	return true
+	return IsAd(url) && !IsRequest(url)
 }
 
 //IsRequestList checks if the url is a list of requests on wg-gesucht.de

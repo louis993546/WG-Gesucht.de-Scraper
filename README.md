@@ -48,3 +48,4 @@
 	- Wireshark
 - Check what is the min id of ads
 	- right now I have a pretty ugly workaround in IsAd(). It would be useful if I can just ignore any id with less than 2/3/4/5/6 digits
+- Write down the research of wg-gesucht urls
