@@ -2,11 +2,13 @@ package injector
 
 import (
 	"github.com/PuerkitoBio/goquery"
-	"github.com/louistsaitszho/wggesuchtscraper/scraper"
 )
 
+//offer has to be here because "extensino function" is not a thing in go
+//but before that, thing again about how to do it properly: offer and request, list and ad
+
 //Extract unique identifier from the page, in this case (WG-gesucht), it's the Ad Id
-func (offer *scraper.Offer) injectID(doc *goquery.Document) error {
+func (offer Offer) injectID(doc *goquery.Document) error {
 	//several more layers
 	//	class="col-md-4"
 	//		class="row"

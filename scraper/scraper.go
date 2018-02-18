@@ -131,7 +131,7 @@ type Offer struct {
 	Flooring           []string      //What material(s) is/are being used in the apartment's floor
 	HeatingType        int           //There are 6 types of heating (excluding the one in flooring -_-)
 	InternetSpeed      NetworkSpeed  //in Mb/s
-	memberSince        YearMonth
+	MemberSince        YearMonth
 }
 
 func (offer Offer) String() string {
@@ -165,12 +165,16 @@ func main() {
 func ScrapRequest(url string) (offer Offer, err error) {
 	var thisOffer Offer
 
-	cleanURL, err := UrlCheck(url)
-	if err != nil {
-		return thisOffer, err
-	}
+	// if !validator.LooksWgGesucht(url) {
+	// 	return thisOffer
+	// }
 
-	doc, err := goquery.NewDocument(cleanUrl)
+	// cleanURL, err := UrlCheck(url)
+	// if err != nil {
+	// 	return thisOffer, err
+	// }
+
+	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		return thisOffer, err
 	}

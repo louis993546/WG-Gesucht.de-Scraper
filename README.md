@@ -36,6 +36,19 @@
 	- Input: URL of that page (list of requests)
 	- Output: List of "Request" struct + node to the next/previous page
 
+## Components
+- Scraper
+	- Basically wrap around the next 4 things
+- Classifier
+	- Classifier which type of data a url should be able to return
+	- Basically a wrapper around validator
+- Validator
+	- Validate if an url should be able to return 1 particular kind of data
+- Fixer
+	- For urls that are close enough, this thing fix it so that the injector can work properly
+- Injector
+	- inject data into objects
+
 ## What's next
 
 - Follow licenses of dependencies
