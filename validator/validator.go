@@ -5,37 +5,37 @@ import (
 )
 
 //RegexpWgGesuchtBase is the compiled regex for wg gesucht base
-var RegexpWgGesuchtBase = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)`)
+var RegexpWgGesuchtBase = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)`)
 
 //RegexpWgGesuchtList is the compiled regex for wg gesucht list
-var RegexpWgGesuchtList = regexp.MustCompile(`^(|((http|https)://))www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
+var RegexpWgGesuchtList = regexp.MustCompile(`^(|https://|http://)www\.wg-gesucht\.de/(.*)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
 //RegexpWgGesuchtAdOrList is the compiled regex for wg gesucht ad or list (request or offer)
-var RegexpWgGesuchtAdOrList = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(.*)(\.)([0-9]{2,7})(\.html)`)
+var RegexpWgGesuchtAdOrList = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)(/en|/es|)(.*)(\.)([0-9]{2,7})(\.html)`)
 
 //RegexpWgGesuchtRequestList is the compiled regex for wg gesucht request list
-var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
+var RegexpWgGesuchtRequestList = regexp.MustCompile(`^(|https://|http://)www\.wg-gesucht\.de/(.*-gesucht)(\.[0-9]|\.[[0-9][[0-9])(\.\d\.\d\.\d.html)$`)
 
 //RegexpWgGesuchtIsRequest is the compiled regex for a single wg gesucht request
-var RegexpWgGesuchtIsRequest = regexp.MustCompile(`(?m)^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(.*)(-gesucht)(\.)([0-9]{1,7})(\.html)`)
+var RegexpWgGesuchtIsRequest = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)(/en|/es|)(.*)(-gesucht)(\.)([0-9]{1,7})(\.html)`)
 
 //RegexpWgGesuchtAboutFlatshares is the compiled regex for wg gesucht flatshares list/ad
-var RegexpWgGesuchtAboutFlatshares = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/wg-zimmer-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+var RegexpWgGesuchtAboutFlatshares = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)(/en|/es|)(/wg-zimmer-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
 
 //RegexpWgGesuchtAbout1RoomFlats is the compiled regex for wg gesucht 1 room flats list/ad
-var RegexpWgGesuchtAbout1RoomFlats = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/1-zimmer-wohnungen-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+var RegexpWgGesuchtAbout1RoomFlats = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)(/en|/es|)(/1-zimmer-wohnungen-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
 
 //RegexpWgGesuchtAboutFlats is the compiled regex for wg gesucht flats list/ad
-var RegexpWgGesuchtAboutFlats = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/wohnungen-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+var RegexpWgGesuchtAboutFlats = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)(/en|/es|)(/wohnungen-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
 
 //RegexpWgGesuchtAboutHouses is the compiled regex for wg gesucht houses list/ad
-var RegexpWgGesuchtAboutHouses = regexp.MustCompile(`^(|(http)(|s)(://))(www.wg-gesucht.de)(/en|/es|)(/haeuser-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
+var RegexpWgGesuchtAboutHouses = regexp.MustCompile(`^(|https://|http://)(www.wg-gesucht.de)(/en|/es|)(/haeuser-in-)(.*)(\.)([0-9]{1,7})(\.html)`)
 
 //RegexpWgGesuchtEnglish is the compiled regex for wg gesucht english site
-var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/en`)
+var RegexpWgGesuchtEnglish = regexp.MustCompile(`^(|https://|http://)www\.wg-gesucht\.de/en`)
 
 //RegexpWgGesuchtSpanish is the compiled regex for wg gesucht spanish site
-var RegexpWgGesuchtSpanish = regexp.MustCompile(`^(|(http|https)://)www\.wg-gesucht\.de/es`)
+var RegexpWgGesuchtSpanish = regexp.MustCompile(`^(|https://|http://)www\.wg-gesucht\.de/es`)
 
 //LooksWgGesucht checks if at the very least the url looks like it is from wg-gesucht.de
 //i.e. does the url starts with "www.wg-gesucht.de" (+- http(s)://)
