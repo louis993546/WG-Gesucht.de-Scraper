@@ -27,28 +27,28 @@ func Classify(url string) Output {
 	//1. where does this comes from
 	if validator.LooksWgGesucht(url) {
 		output.DataSrouce = "wg-gescuht"
-	}
 
-	//2. is it a list of an ad
-	if validator.IsList(url) {
-		output.IsList = false
-	}
+		//2. is it a list of an ad
+		if validator.IsList(url) {
+			output.IsList = false
+		}
 
-	//3. is it an request or an offer?
-	if validator.IsRequest(url) {
-		output.IsRequest = true
-	}
+		//3. is it an request or an offer?
+		if validator.IsRequest(url) {
+			output.IsRequest = true
+		}
 
-	//4. which language is it in?
-	if validator.IsEnglish(url) {
-		output.Language = "en"
-	} else if validator.IsSpanish(url) {
-		output.Language = "es"
-	} else if validator.IsGerman(url) {
-		output.Language = "de"
-	}
+		//4. which language is it in?
+		if validator.IsEnglish(url) {
+			output.Language = "en"
+		} else if validator.IsSpanish(url) {
+			output.Language = "es"
+		} else if validator.IsGerman(url) {
+			output.Language = "de"
+		}
 
-	//5. TODO does it need fixing, and if yes, which part?
+		//5. TODO does it need fixing, and if yes, which part?
+	}
 
 	return output
 }
