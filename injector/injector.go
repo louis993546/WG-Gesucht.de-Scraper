@@ -32,6 +32,12 @@ type Ad interface {
 	//last online
 }
 
+//List of Ad
+type List interface {
+	Page() int
+	SetPage(page int)
+}
+
 //Offer = that person has a place to rent out
 type Offer struct {
 	adID             int
@@ -94,7 +100,7 @@ func (o *Offer) SetName(name string) {
 //InjectAdID put the AdID into the right place, or return an error
 //if it cannot find it
 //TODO handle deactivited ad: https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Kreuzberg.6475694.html
-//TODO why trim trimspace remove everything?
+//TODO sometimes they hide the picture, and it screw up everything
 func InjectAdID(ad Ad, doc *goquery.Document) (Ad, error) {
 	outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find(".row").Find(".col-xs-12").Find(".row").Find(".hidden-xs.hidden-sm").Find(".col-md-4").Find(".row").Find(".col-md-12").Slice(1, 2)
 	garbage := outside.Children()
@@ -105,6 +111,15 @@ func InjectAdID(ad Ad, doc *goquery.Document) (Ad, error) {
 		return nil, err
 	}
 	ad.SetAdID(id)
+	return ad, nil
+}
+
+//InjectAdTitle put the title of the ad into the right place
+func InjectAdTitle(ad Ad, doc *goquery.Document) (Ad, error) {
+	outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find("div.noprint.showOnGalleryOnly").Find("h1#sliderTopTitle")
+	garbage := outside.Children()
+	title := strings.TrimSpace(strings.Replace(strings.Replace(outside.Text(), garbage.Text(), "", -1), "\n", "", -1))
+	ad.SetTitle(title)
 	return ad, nil
 }
 

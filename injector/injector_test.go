@@ -20,7 +20,7 @@ func TestWithMockData(t *testing.T) {
 func TestWithLiveData(t *testing.T) {
 	//TODO use a list of live websites and their expected results
 
-	test1 := InputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Prenzlauer-Berg.6584335.html", Offer{6584335, "", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+	test1 := InputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Prenzlauer-Berg.6584335.html", Offer{6584335, "3 Wochen Zwischenmiete. Flexibel", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 
 	doc, err := goquery.NewDocument(test1.URL)
 	if err != nil {
@@ -34,6 +34,14 @@ func TestWithLiveData(t *testing.T) {
 	}
 	if offer.AdID() != test1.answer.AdID() {
 		t.Errorf("AdID does not match: expecting %d, got %d instead", test1.answer.AdID(), offer.AdID())
+	}
+
+	offer2, err2 := InjectAdTitle(&newOffer, doc)
+	if err2 != nil {
+		t.Fatalf("inject title failed: '%s'", err)
+	}
+	if offer2.Title() != test1.answer.Title() {
+		t.Errorf("Title does not match: expecting '%s', got '%s' instead", test1.answer.Title(), offer2.Title())
 	}
 
 	//If i am expecting error, check if offer.ID is empty
