@@ -3,6 +3,7 @@ package injector
 import (
 	"encoding/json"
 	"strconv"
+	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -92,10 +93,14 @@ func (o *Offer) SetName(name string) {
 
 //InjectAdID put the AdID into the right place, or return an error
 //if it cannot find it
+//TODO handle deactivited ad: https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Kreuzberg.6475694.html
+//TODO why trim trimspace remove everything?
 func InjectAdID(ad Ad, doc *goquery.Document) (Ad, error) {
-	something := doc.Find("div").Find(".col-md-12")
-	println(something.Text())
-	id, err := strconv.Atoi(something.Text())
+	outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find(".row").Find(".col-xs-12").Find(".row").Find(".hidden-xs.hidden-sm").Find(".col-md-4").Find(".row").Find(".col-md-12").Slice(1, 2)
+	garbage := outside.Children()
+	idString := strings.Replace(strings.Replace(strings.Replace(outside.Text(), garbage.Text(), "", -1), "\n", "", -1), " ", "", -1)
+
+	id, err := strconv.Atoi(idString)
 	if err != nil {
 		return nil, err
 	}
