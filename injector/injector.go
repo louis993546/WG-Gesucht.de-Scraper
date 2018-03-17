@@ -1,3 +1,5 @@
+// Package injector contains a series of functions to inject all the fields of an Ad.
+// Right now this is only target to support WG-Gesucht.de
 package injector
 
 import (
@@ -26,6 +28,8 @@ type Ad interface {
 	SetTitle(title string)
 	Name() string
 	SetName(name string)
+	IsActive() bool
+	SetIsActive(active bool)
 	//TODO not sure what type a date should be
 	// MemberSince() string
 	// setMemberSince(ms string)
@@ -44,6 +48,7 @@ type Offer struct {
 	adID             int
 	title            string
 	name             string
+	active           bool
 	address          string
 	BaseRent         int
 	Utilities        int
@@ -98,20 +103,67 @@ func (o *Offer) SetName(name string) {
 	o.name = name
 }
 
+//IsActive return if the offer is active
+func (o *Offer) IsActive() bool {
+	return o.active
+}
+
+//SetIsActive set if the offer is active or not
+func (o *Offer) SetIsActive(active bool) {
+	o.active = active
+}
+
 //InjectAdID put the AdID into the right place, or return an error
 //if it cannot find it
+//This function is uses InjectActiveness to inject ID correctly
 //TODO handle deactivited ad: https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Kreuzberg.6475694.html
 //TODO sometimes they hide the picture, and it screw up everything
 func InjectAdID(ad Ad, doc *goquery.Document) (Ad, error) {
-	outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find(".row").Find(".col-xs-12").Find(".row").Find(".hidden-xs.hidden-sm").Find(".col-md-4").Find(".row").Find(".col-md-12").Slice(1, 2)
-	garbage := outside.Children()
-	idString := strings.Replace(strings.Replace(strings.Replace(outside.Text(), garbage.Text(), "", -1), "\n", "", -1), " ", "", -1)
-
-	id, err := strconv.Atoi(idString)
-	if err != nil {
-		return nil, err
+	ad, errActiveness := InjectActiveness(ad, doc)
+	if errActiveness != nil {
+		return ad, errActiveness
 	}
-	ad.SetAdID(id)
+
+	if ad.IsActive() { //extract ID from visible content
+		outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find(".row").Find(".col-xs-12").Find(".row").Find(".hidden-xs.hidden-sm").Find(".col-md-4").Find(".row").Find(".col-md-12").Slice(1, 2)
+		garbage := outside.Children()
+		idString := strings.Replace(strings.Replace(strings.Replace(outside.Text(), garbage.Text(), "", -1), "\n", "", -1), " ", "", -1)
+
+		id, err := strconv.Atoi(idString)
+		if err != nil {
+			return ad, err
+		}
+		ad.SetAdID(id)
+	} else { //extract ID from urls in content
+		filteredList := doc.Find("link").FilterFunction(func(i int, s *goquery.Selection) bool {
+			// canonical
+			rel, exists := s.Attr("rel")
+			if exists {
+				if rel == "canonical" {
+					return true
+				}
+			}
+			return false
+		})
+
+		if filteredList.Length() != 1 {
+			return ad, errors.New("There are more than 1 canonical for some reason")
+		}
+
+		href, existsHref := filteredList.Attr("href")
+		if existsHref {
+			println("href = " + href)
+			splited := strings.Split(href, ".")
+			idString := splited[len(splited)-2]
+			id, err := strconv.Atoi(idString)
+			if err != nil {
+				return ad, err
+			}
+			ad.SetAdID(id)
+		} else {
+			return ad, errors.New("Failed to find AdID in href from canonical")
+		}
+	}
 	return ad, nil
 }
 
@@ -124,6 +176,15 @@ func InjectAdTitle(ad Ad, doc *goquery.Document) (Ad, error) {
 		return ad, errors.New("Cannot find title (length == 0)")
 	}
 	ad.SetTitle(title)
+	return ad, nil
+}
+
+//InjectActiveness inject if the ad is active or not. Note that this does not care if the link is actually
+//an Ad. That is not the duty of this function, and if you do that, it may return wrong result (in this case,
+//return that the ad is active)
+func InjectActiveness(ad Ad, doc *goquery.Document) (Ad, error) {
+	deactivedBlock := doc.Find(".panel.panel-deactivated").Text() //if this exist, the ad is not active
+	ad.SetIsActive(!(len(deactivedBlock) > 0))
 	return ad, nil
 }
 

@@ -6,44 +6,90 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type InputAndAnswer struct {
+//TODO add another field to enter expected error(s)
+type LiveInputAndAnswer struct {
 	URL    string
 	answer Offer
 }
 
-//Part 1: Test with mock data
-func TestWithMockData(t *testing.T) {
-	//TODO loop through a list of mock document and their model answers
+//TODO add another field to enter expected error(s)
+type MockInputAndAnswer struct {
+	FileName string
+	answer   Offer
 }
 
-//Part 2: Test with live data
-func TestWithLiveData(t *testing.T) {
-	//TODO use a list of live websites and their expected results
+//test data
+//This one is deactivated
+var test1 = LiveInputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Prenzlauer-Berg.6584335.html", Offer{6584335, "3 Wochen Zwischenmiete. Flexibel", "", false, "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 
-	test1 := InputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Prenzlauer-Berg.6584335.html", Offer{6584335, "3 Wochen Zwischenmiete. Flexibel", "", "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+//This one is perfectly normal (last checked: 17.03.2018)
+var test2 = LiveInputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Wedding.6566296.html", Offer{6566296, "schöne unmöbilierte WG-Zimmer(15 und 6m2) in 2er WG direkt am Leopoldplatz", "Simon Stracke", true, "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 
-	doc, err := goquery.NewDocument(test1.URL)
-	if err != nil {
-		t.Fatalf("failed to get live data from '%s'", test1.URL)
-	}
+//TODO 1 for offer with no picture
+//TODO 1 for offer with both from and to date
+//TODO a whole bunch of offers with different sizes and prices
+var liveTests = [...]LiveInputAndAnswer{test1, test2}
 
-	newOffer := Offer{}
-	offer, err := InjectAdID(&newOffer, doc)
-	if err != nil {
-		t.Fatalf("inject id failed: '%s'", err)
-	}
-	if offer.AdID() != test1.answer.AdID() {
-		t.Errorf("AdID does not match: expecting %d, got %d instead", test1.answer.AdID(), offer.AdID())
-	}
+//Part 1: Test each Inject function
+//Goal: Make sure each function works, esp. when only 1 function get's updated
 
-	offer2, err2 := InjectAdTitle(&newOffer, doc)
-	if err2 != nil {
-		t.Fatalf("inject title failed: '%s'", err)
-	}
-	if offer2.Title() != test1.answer.Title() {
-		t.Errorf("Title does not match: expecting '%s', got '%s' instead", test1.answer.Title(), offer2.Title())
-	}
+//Part 1.1: Test InjectActiveness
+func TestInjectActiveness(t *testing.T) {
+	for _, element := range liveTests {
+		doc, err := goquery.NewDocument(element.URL)
+		if err != nil {
+			t.Fatalf("failed to get live data from '%s'", element.URL)
+		}
 
-	//If i am expecting error, check if offer.ID is empty
-	//If i am expecting id, check offer.ID
+		newOffer := Offer{}
+		offer, err := InjectActiveness(&newOffer, doc)
+		if err != nil {
+			//TODO not necessarely: for invalid sites, there might be no id to be injected, and should throw an error
+			t.Fatalf("inject activeness failed: '%s'", err)
+		}
+		if offer.IsActive() != element.answer.IsActive() {
+			t.Errorf("activeness does not match: expecting '%t', got '%t' instead for '%s'", element.answer.IsActive(), offer.IsActive(), element.URL)
+		}
+	}
 }
+
+func TestInjectAdID(t *testing.T) {
+	for _, element := range liveTests {
+		doc, err := goquery.NewDocument(element.URL)
+		if err != nil {
+			t.Fatalf("failed to get live data from '%s'", element.URL)
+		}
+
+		newOffer := Offer{}
+		offer, err := InjectAdID(&newOffer, doc)
+		if err != nil {
+			//TODO not necessarely: for invalid sites, there might be no id to be injected, and should throw an error
+			t.Fatalf("inject id failed: '%s'", err)
+		}
+		if offer.AdID() != element.answer.AdID() {
+			t.Errorf("AdID does not match: expecting %d, got %d instead", element.answer.AdID(), offer.AdID())
+		}
+	}
+}
+
+func TestInjectAdTitle(t *testing.T) {
+	for _, element := range liveTests {
+		doc, err := goquery.NewDocument(element.URL)
+		if err != nil {
+			t.Fatalf("failed to get live data from '%s'", element.URL)
+		}
+
+		newOffer := Offer{}
+		offer, err := InjectAdTitle(&newOffer, doc)
+		if err != nil {
+			//TODO not necessarely: for invalid sites, there might be no id to be injected, and should throw an error
+			t.Fatalf("inject title failed: '%s'", err)
+		}
+		if offer.Title() != element.answer.Title() {
+			t.Errorf("Title does not match: expecting %d, got %d instead", element.answer.AdID(), offer.AdID())
+		}
+	}
+}
+
+//Part 2: Test with dynamically generated URLs (e.g. latest 1000 Ads)
+//Goal: Make sure it does not crash or something
