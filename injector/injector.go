@@ -169,11 +169,24 @@ func InjectAdID(ad Ad, doc *goquery.Document) (Ad, error) {
 
 //InjectAdTitle put the title of the ad into the right place
 func InjectAdTitle(ad Ad, doc *goquery.Document) (Ad, error) {
-	outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find("div.noprint.showOnGalleryOnly").Find("h1#sliderTopTitle")
-	garbage := outside.Children()
-	title := strings.TrimSpace(strings.Replace(strings.Replace(outside.Text(), garbage.Text(), "", -1), "\n", "", -1))
+	ad, errActiveness := InjectActiveness(ad, doc)
+	if errActiveness != nil {
+		return ad, errActiveness
+	}
+
+	if ad.IsActive() {
+		outside := doc.Find("div#main_content").Find("div#main_column").Find(".panel.panel-default").Find(".panel-body").Find("div.noprint.showOnGalleryOnly").Find("h1#sliderTopTitle")
+		garbage := outside.Children()
+		title := strings.TrimSpace(strings.Replace(strings.Replace(outside.Text(), garbage.Text(), "", -1), "\n", "", -1))
+		if len(title) == 0 {
+			return ad, errors.New("Cannot find title (length == 0)")
+		}
+		ad.SetTitle(title)
+		return ad, nil
+	}
+	title := strings.TrimSpace(doc.Find("h1#sliderTopTitle.headline.headline-detailed-view-title").Text())
 	if len(title) == 0 {
-		return ad, errors.New("Cannot find title (length == 0)")
+		return ad, errors.New("Cannot find title (length == 0) (deactive)")
 	}
 	ad.SetTitle(title)
 	return ad, nil

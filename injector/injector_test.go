@@ -20,7 +20,7 @@ type MockInputAndAnswer struct {
 
 //test data
 //This one is deactivated
-var test1 = LiveInputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Prenzlauer-Berg.6584335.html", Offer{6584335, "3 Wochen Zwischenmiete. Flexibel", "", false, "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
+var test1 = LiveInputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Prenzlauer-Berg.6584335.html", Offer{6584335, "3 Wochen Zwischenmiete. Ab Sofort", "", false, "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
 
 //This one is perfectly normal (last checked: 17.03.2018)
 var test2 = LiveInputAndAnswer{"https://www.wg-gesucht.de/en/wg-zimmer-in-Berlin-Wedding.6566296.html", Offer{6566296, "schöne unmöbilierte WG-Zimmer(15 und 6m2) in 2er WG direkt am Leopoldplatz", "Simon Stracke", true, "", 0, 0, 0, 0, 0, 0, 0, 0, 0}}
@@ -83,13 +83,16 @@ func TestInjectAdTitle(t *testing.T) {
 		offer, err := InjectAdTitle(&newOffer, doc)
 		if err != nil {
 			//TODO not necessarely: for invalid sites, there might be no id to be injected, and should throw an error
-			t.Fatalf("inject title failed: '%s'", err)
+			t.Fatalf("inject title failed for '%s': '%s'", element.URL, err)
 		}
 		if offer.Title() != element.answer.Title() {
-			t.Errorf("Title does not match: expecting %d, got %d instead", element.answer.AdID(), offer.AdID())
+			t.Errorf("Title does not match: expecting '%s', got '%s' instead\n", element.answer.Title(), offer.Title())
 		}
 	}
 }
 
 //Part 2: Test with dynamically generated URLs (e.g. latest 1000 Ads)
 //Goal: Make sure it does not crash or something
+
+//Part 3: Benchmark with local data
+//Goal: See if there is any noticable issue with each injector, and if it is necessary to use goroutine
