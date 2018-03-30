@@ -5,6 +5,7 @@ package injector
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -12,7 +13,6 @@ import (
 )
 
 //offer has to be here because "extensino function" is not a thing in go
-//but before that, thing again about how to do it properly: offer and request, list and ad
 
 //1. will have offer and request (both as Ad), and list is type that contains List<Ad>
 //2. will use a lot of interfaces to share function, e.g. things that "HasID" has getter and setter for ID
@@ -201,19 +201,34 @@ func InjectActiveness(ad Ad, doc *goquery.Document) (Ad, error) {
 	return ad, nil
 }
 
-// //Extract unique identifier from the page, in this case (WG-gesucht), it's the Ad Id
-// func (offer Offer) injectID(doc *goquery.Document) error {
-// 	//several more layers
-// 	//	class="col-md-4"
-// 	//		class="row"
-// 	//			class="col-md-12"
-// }
+//InjectOfferActiveness is the same as InjectActiveness but takes Offer instead and do the type assertion myself.
+func InjectOfferActiveness(offer Offer, doc *goquery.Document) (Offer, error) {
+	offerAd, error := InjectActiveness(&offer, doc)
+	offerOffer := offerAd.(*Offer)
+	return *offerOffer, error
+}
 
-// func (offer *Offer) injectTitle(doc *goquery.Document) error {
-// 	// doc.Find("#main_content").Find("#main_column").Find(".panel-body").Find(".headline.headline-detailed-view-title").Each(func(index int, item *goquery.Selection) {
-// 	// 	fmt.Printf("title %d = %s\n", index, strings.TrimSpace(item.Text()))
-// 	// })
-// }
+//InjectAddress inject the address of an offer.
+func InjectAddress(offer Offer, doc *goquery.Document) (Offer, error) {
+	address := doc.Find("div#main_content.row").Find("div#main_column.col-md-8").Find("div.panel-body").Find("div.row").Find("div.col-sm-4.mb10").Find("a")
+	trimFullAddress := strings.TrimSpace(strings.Trim(address.Text(), "\n"))
+	lines := strings.Split(trimFullAddress, "\n")
+	fmt.Printf("line length = %d\n", len(lines))
+	var cleanLines []string
+	for i, line := range lines {
+		cleanThisLine := strings.TrimSpace(line)
+		if len(cleanThisLine) > 0 {
+			fmt.Printf("This is line %d: %s\n", i, cleanThisLine)
+			cleanLines = append(cleanLines, cleanThisLine)
+		} else {
+			fmt.Printf("Line %d got thrown away\n", i)
+		}
+	}
+	offer.address = strings.Join(cleanLines, ", ")
+	// offer.address = strings.TrimSpace(strings.Replace(strings.Replace(address.Text(), "  ", "", -1), "\n\n\n", ", ", -1))
+
+	return offer, nil
+}
 
 // func (offer *Offer) injectDescription(doc *goquery.Document) error {
 // 	// doc.Find("div.freitext").Each(func(index int, item *goquery.Selection) {
